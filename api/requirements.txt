@@ -1,0 +1,12 @@
+fastapi[standard]>=0.113.0,<0.114.0
+pydantic>=2.4.2
+pydantic-settings>=2.0.0,<3.0.0
+python-dotenv>=1.0.0
+groq>=0.4.0
+openai>=1.3.0
+uvicorn>=0.23.2
+azure-functions>=1.11.0
+exa-py>=0.1.0
+pyodbc
+sqlalchemy
+alembic
