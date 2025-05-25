@@ -7,7 +7,9 @@
 - Navigate to api directory and type `uv venv .venv`
 - Type `uv add openai`
 
-### 3. To  run the application do the following
+### 3. Renamed the `.env.example` file to `.env`. Key will be sent through encrypted means.
+
+### 4. To  run the application do the following
 - Navigate to your api directory and type `fastapi dev main.py`
 - Go into your finder/file explorer and click on the index.html in the client folder. 
 
