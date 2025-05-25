@@ -5,6 +5,7 @@
 
 ### 2. Open a terminal and do the following
 - Navigate to api directory and type `uv venv .venv`
+- Type `source .venv/bin/activate`
 - Type `uv add openai`
 
 ### 3. Renamed the `.env.example` file to `.env`. Key will be sent through encrypted means.
