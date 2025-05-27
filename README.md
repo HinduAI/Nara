@@ -1,5 +1,10 @@
 # Steps to run application
 
+### Downloads
+- 1. uv: https://docs.astral.sh/uv/getting-started/installation/
+- 2. git: https://git-scm.com/downloads/mac
+- 3. brew: https://brew.sh/
+
 ### 1. Download uv
 - uv is a python environment manager. Download it using homebrow with `brew install uv`
 
