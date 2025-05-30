@@ -3,9 +3,12 @@
 ## ------ DO NOT DOWNLOAD PYTHON FROM ANY WEBSITE. IT'S OK IF YOU ALREADY HAVE BUT IF YOU HAVEN'T, DON'T ---------
 
 ### Downloads
-- 1. uv: https://docs.astral.sh/uv/getting-started/installation/
+- 1. brew: https://brew.sh/
+  2. uv: https://docs.astral.sh/uv/getting-started/installation/
 - 2. git: https://git-scm.com/downloads/mac
-- 3. brew: https://brew.sh/
+
+### Clone this repo
+- 1. Go to your terminal and type in `git clone https://github.com/HinduAI/Nara.git`
 
 ### 1. Download uv
 - uv is a python environment manager. Download it using homebrow with `brew install uv`
