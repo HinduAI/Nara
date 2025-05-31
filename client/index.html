@@ -44,6 +44,13 @@
             margin-bottom: 16px;
         }
 
+        .om-symbol {
+            font-size: 4rem;
+            color: #FF7F00;  /* A warm, spiritual orange color */
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
         .subtitle {
             font-size: 1rem;
             color: #6b7280;
@@ -74,6 +81,22 @@
         .input-wrapper:focus-within {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .language-select {
+            padding: 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #374151;
+            background-color: #f9fafb;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .language-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
 
         #questionInput {
@@ -224,6 +247,7 @@
 <body>
     <div class="main-container">
         <div class="welcome-section" id="welcomeSection">
+            <div class="om-symbol">ॐ</div>
             <h1 class="main-heading">What would you like to explore?</h1>
             <p class="subtitle">Ask questions about Hindu philosophy, sacred texts, and ancient wisdom</p>
             
@@ -262,6 +286,15 @@
                 onkeydown="handleKeyPress(event)"
             ></textarea>
             <div class="input-actions">
+                <select class="language-select" id="languageSelect">
+                    <option value="english">English</option>
+                    <option value="sanskrit">Sanskrit</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="tamil">Tamil</option>
+                    <option value="telugu">Telugu</option>
+                    <option value="kannada">Kannada</option>
+                    <option value="malayalam">Malayalam</option>
+                </select>
                 <button class="mic-button" onclick="toggleMic()">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -340,6 +373,9 @@
 
             startChatMode();
             
+            // Get selected language
+            const selectedLanguage = document.getElementById('languageSelect').value;
+            
             // Add user message
             addMessage(question, 'user');
             
@@ -363,7 +399,8 @@
                     body: JSON.stringify({
                         question: question,
                         user_id: 'test-user',
-                        get_analysis: false
+                        get_analysis: false,
+                        language: selectedLanguage
                     })
                 });
 
