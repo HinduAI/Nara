@@ -387,11 +387,31 @@
         }
 
         function formatResponse(text) {
-            return text
+            // Handle basic markdown formatting
+            let formatted = text
+                // Convert headers
+                .replace(/### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/# (.*$)/gm, '<h1>$1</h1>')
+                // Convert bold text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Convert italic text
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                // Convert paragraph breaks (double newlines to paragraph tags)
                 .replace(/\n\n/g, '</p><p>')
+                // Convert single newlines to line breaks
                 .replace(/\n/g, '<br>')
-                .replace(/^(.*)$/, '<p>$1</p>')
-                .replace(/<p><br><\/p>/g, '<br>');
+                // Wrap the entire content in paragraph tags
+                .replace(/^(.*)$/s, '<p>$1</p>')
+                // Clean up any empty paragraphs
+                .replace(/<p><\/p>/g, '')
+                .replace(/<p><br><\/p>/g, '')
+                // Fix header tags that got wrapped in paragraphs
+                .replace(/<p>(<h[1-6]>.*?<\/h[1-6]>)<\/p>/g, '$1')
+                // Fix consecutive paragraph issues
+                .replace(/<\/p><p>/g, '</p>\n<p>');
+            
+            return formatted;
         }
 
         // Initialize
