@@ -23,18 +23,35 @@
         .main-container {
             flex: 1;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            align-items: flex-start;
             justify-content: center;
             padding: 20px;
-            max-width: 768px;
+            max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            position: relative;
+            min-height: calc(100vh - 40px);
+        }
+
+        .main-content {
+            width: 768px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-bottom: 30px;
         }
 
         .welcome-section {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .main-heading {
@@ -46,9 +63,11 @@
 
         .om-symbol {
             font-size: 4rem;
-            color: #FF7F00;  /* A warm, spiritual orange color */
+            color: #FF6F00;
             margin-bottom: 20px;
             font-family: Arial, sans-serif;
+            text-align: center;
+            width: 100%;
         }
 
         .subtitle {
@@ -60,9 +79,9 @@
         .chat-input-container {
             width: 100%;
             max-width: 768px;
+            margin: -10px auto 0;
+            padding: 5px 20px;
             position: relative;
-            margin: 0 auto;
-            padding: 20px;
         }
 
         .input-wrapper {
@@ -97,6 +116,13 @@
         .language-select:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+
+        .language-indicator {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 4px;
+            text-align: right;
         }
 
         #questionInput {
@@ -166,12 +192,13 @@
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            display: none; /* Hidden initially */
+            display: none;
+            margin-bottom: 5px;
         }
 
         .message {
-            margin-bottom: 24px;
-            padding: 16px;
+            margin-bottom: 12px;
+            padding: 12px;
             border-radius: 8px;
             line-height: 1.6;
         }
@@ -242,37 +269,240 @@
             width: 16px;
             height: 16px;
         }
+
+        .daily-verse-section {
+            width: auto;
+            background: #fff9f0;
+            border: 1px solid #ffd7a8;
+            border-radius: 16px;
+            padding: 16px 24px;
+            position: fixed;
+            top: 20px;
+            right: max(20px, calc((100vw - 1400px) / 2 + 20px));
+            z-index: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .daily-verse-section:hover {
+            background: #fff5e6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .verse-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .verse-popup {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .close-popup:hover {
+            color: #000;
+        }
+
+        .daily-verse-title {
+            font-size: 1.25rem;
+            color: #FF7F00;
+            margin-bottom: 16px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .verse-content {
+            font-size: 1rem;
+            color: #374151;
+            margin-bottom: 16px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .verse-transliteration {
+            font-size: 0.95rem;
+            color: #4b5563;
+            margin-bottom: 16px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .verse-meaning {
+            font-size: 0.95rem;
+            color: #4b5563;
+            margin-bottom: 16px;
+            line-height: 1.6;
+            padding-top: 8px;
+            border-top: 1px solid #ffd7a8;
+        }
+
+        .verse-section-label {
+            font-size: 0.8rem;
+            color: #FF7F00;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .verse-reference {
+            font-size: 0.875rem;
+            color: #FF7F00;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        @media (max-width: 1400px) {
+            .daily-verse-section {
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .main-content {
+                position: static;
+                width: 100%;
+                max-width: 768px;
+                transform: none;
+            }
+
+            .daily-verse-section {
+                position: static;
+                width: 100%;
+                max-width: 768px;
+                margin: 40px 0;
+            }
+        }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .home-button:hover {
+            background: #f3f4f6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-button svg {
+            width: 20px;
+            height: 20px;
+            color: #FF6F00;
+        }
+
+        .home-button span {
+            color: #374151;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
+    <button class="home-button" onclick="goHome()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span>Home</span>
+    </button>
+
     <div class="main-container">
-        <div class="welcome-section" id="welcomeSection">
-            <div class="om-symbol">ॐ</div>
-            <h1 class="main-heading">What would you like to explore?</h1>
-            <p class="subtitle">Ask questions about Hindu philosophy, sacred texts, and ancient wisdom</p>
-            
-            <div class="suggestions" id="suggestions">
-                <div class="suggestion-card" onclick="fillQuestion('What is the meaning of dharma?')">
-                    <div class="suggestion-title">Understand Dharma</div>
-                    <div class="suggestion-subtitle">Explore the concept of righteous living</div>
+        <div class="main-content">
+            <div class="welcome-section" id="welcomeSection">
+                <div class="om-symbol">ॐ</div>
+                <h1 class="main-heading">What would you like to explore?</h1>
+                <p class="subtitle">Ask questions about Hindu philosophy, sacred texts, and ancient wisdom</p>
+                
+                <div class="suggestions" id="suggestions">
+                    <div class="suggestion-card" onclick="fillQuestion('What is the meaning of dharma?')">
+                        <div class="suggestion-title">Understand Dharma</div>
+                        <div class="suggestion-subtitle">Explore the concept of righteous living</div>
+                    </div>
+                    <div class="suggestion-card" onclick="fillQuestion('Explain the Bhagavad Gita verse 2.47')">
+                        <div class="suggestion-title">Gita Wisdom</div>
+                        <div class="suggestion-subtitle">Dive into sacred verse meanings</div>
+                    </div>
+                    <div class="suggestion-card" onclick="fillQuestion('What are the different paths of yoga?')">
+                        <div class="suggestion-title">Paths of Yoga</div>
+                        <div class="suggestion-subtitle">Learn about spiritual practices</div>
+                    </div>
+                    <div class="suggestion-card" onclick="fillQuestion('How can Vedic wisdom help with modern stress?')">
+                        <div class="suggestion-title">Ancient Solutions</div>
+                        <div class="suggestion-subtitle">Apply timeless wisdom to today</div>
+                    </div>
                 </div>
-                <div class="suggestion-card" onclick="fillQuestion('Explain the Bhagavad Gita verse 2.47')">
-                    <div class="suggestion-title">Gita Wisdom</div>
-                    <div class="suggestion-subtitle">Dive into sacred verse meanings</div>
-                </div>
-                <div class="suggestion-card" onclick="fillQuestion('What are the different paths of yoga?')">
-                    <div class="suggestion-title">Paths of Yoga</div>
-                    <div class="suggestion-subtitle">Learn about spiritual practices</div>
-                </div>
-                <div class="suggestion-card" onclick="fillQuestion('How can Vedic wisdom help with modern stress?')">
-                    <div class="suggestion-title">Ancient Solutions</div>
-                    <div class="suggestion-subtitle">Apply timeless wisdom to today</div>
-                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here dynamically -->
             </div>
         </div>
 
-        <div class="chat-messages" id="chatMessages">
-            <!-- Messages will be added here dynamically -->
+        <div class="daily-verse-section" onclick="showVersePopup()">
+            <h2 class="daily-verse-title">Today's Gita Verse</h2>
+            <div class="verse-reference" id="verseReference">
+                Bhagavad Gita 2.47
+            </div>
+        </div>
+
+        <div class="verse-popup-overlay" id="versePopup" onclick="hideVersePopup(event)">
+            <div class="verse-popup">
+                <button class="close-popup" onclick="hideVersePopup(event)">×</button>
+                <h2 class="daily-verse-title">Today's Gita Verse</h2>
+                <div>
+                    <div class="verse-section-label">Sanskrit</div>
+                    <div class="verse-content" id="verseText"></div>
+                </div>
+                <div>
+                    <div class="verse-section-label">Transliteration</div>
+                    <div class="verse-transliteration" id="verseTransliteration"></div>
+                </div>
+                <div>
+                    <div class="verse-section-label">Meaning</div>
+                    <div class="verse-meaning" id="verseMeaning"></div>
+                </div>
+                <div class="verse-reference" id="popupVerseReference"></div>
+            </div>
         </div>
     </div>
 
@@ -286,7 +516,7 @@
                 onkeydown="handleKeyPress(event)"
             ></textarea>
             <div class="input-actions">
-                <select class="language-select" id="languageSelect">
+                <select class="language-select" id="languageSelect" onchange="updateLanguageIndicator()">
                     <option value="english">English</option>
                     <option value="sanskrit">Sanskrit</option>
                     <option value="hindi">Hindi</option>
@@ -310,6 +540,7 @@
                 </button>
             </div>
         </div>
+        <div class="language-indicator" id="languageIndicator"></div>
     </div>
 
     <script>
@@ -319,6 +550,63 @@
         const chatMessages = document.getElementById('chatMessages');
         const welcomeSection = document.getElementById('welcomeSection');
         let hasStartedChat = false;
+
+        const verses = [
+            {
+                sanskrit: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥",
+                transliteration: "karmaṇy-evādhikāras te mā phaleṣu kadācana\nmā karma-phala-hetur bhūr mā te saṅgo 'stv akarmaṇi",
+                meaning: "You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions. Never consider yourself to be the cause of the results of your activities, nor be attached to inaction.",
+                reference: "Bhagavad Gita 2.47"
+            },
+            {
+                sanskrit: "योगस्थः कुरु कर्माणि सङ्गं त्यक्त्वा धनञ्जय।\nसिद्ध्यसिद्ध्योः समो भूत्वा समत्वं योग उच्यते॥",
+                transliteration: "yoga-sthaḥ kuru karmāṇi saṅgaṁ tyaktvā dhanañjaya\nsiddhy-asiddhyoḥ samo bhūtvā samatvaṁ yoga ucyate",
+                meaning: "Perform your duty equipoised, O Arjuna, abandoning all attachment to success or failure. Such equanimity is called yoga.",
+                reference: "Bhagavad Gita 2.48"
+            },
+            {
+                sanskrit: "यदा यदा हि धर्मस्य ग्लानिर्भवति भारत।\nअभ्युत्थानमधर्मस्य तदात्मानं सृजाम्यहम्॥",
+                transliteration: "yadā yadā hi dharmasya glānir bhavati bhārata\nabhyutthānam adharmasya tadātmānaṁ sṛjāmy aham",
+                meaning: "Whenever and wherever there is a decline in religious practice, O descendant of Bharata, and a predominant rise of irreligion—at that time I descend Myself.",
+                reference: "Bhagavad Gita 4.7"
+            }
+        ];
+
+        // Function to show verse popup
+        function showVersePopup() {
+            const popup = document.getElementById('versePopup');
+            popup.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when popup is open
+        }
+
+        // Function to hide verse popup
+        function hideVersePopup(event) {
+            if (event.target.classList.contains('verse-popup-overlay') || 
+                event.target.classList.contains('close-popup')) {
+                const popup = document.getElementById('versePopup');
+                popup.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Modified setDailyVerse function
+        function setDailyVerse() {
+            const today = new Date();
+            const verseIndex = today.getDate() % verses.length;
+            const verse = verses[verseIndex];
+            
+            // Update popup content
+            document.getElementById('verseText').innerHTML = verse.sanskrit.replace(/\n/g, '<br>');
+            document.getElementById('verseTransliteration').innerHTML = verse.transliteration.replace(/\n/g, '<br>');
+            document.getElementById('verseMeaning').innerHTML = verse.meaning;
+            
+            // Update both reference displays
+            document.getElementById('verseReference').textContent = verse.reference;
+            document.getElementById('popupVerseReference').textContent = verse.reference;
+        }
+
+        // Call this when the page loads
+        window.addEventListener('load', setDailyVerse);
 
         // Auto-resize textarea
         function autoResize(textarea) {
@@ -367,14 +655,26 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        // Function to update language indicator
+        function updateLanguageIndicator() {
+            const selectedLanguage = document.getElementById('languageSelect').value;
+            const indicator = document.getElementById('languageIndicator');
+            indicator.textContent = `Responses will be in ${selectedLanguage.charAt(0).toUpperCase() + selectedLanguage.slice(1)}`;
+            
+            // Store language preference
+            localStorage.setItem('preferredLanguage', selectedLanguage);
+            
+            console.log('Language updated to:', selectedLanguage); // Debug log
+        }
+
         async function askQuestion() {
             const question = questionInput.value.trim();
             if (!question) return;
 
             startChatMode();
             
-            // Get selected language
             const selectedLanguage = document.getElementById('languageSelect').value;
+            console.log('Selected language:', selectedLanguage);
             
             // Add user message
             addMessage(question, 'user');
@@ -386,7 +686,7 @@
             // Add loading message
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'message assistant loading';
-            loadingDiv.innerHTML = 'Thinking...';
+            loadingDiv.innerHTML = `Thinking... (Response will be in ${selectedLanguage})`;
             chatMessages.appendChild(loadingDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -395,12 +695,17 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept-Language': selectedLanguage
                     },
                     body: JSON.stringify({
                         question: question,
                         user_id: 'test-user',
                         get_analysis: false,
-                        language: selectedLanguage
+                        language: selectedLanguage,
+                        source_language: 'english',
+                        response_type: 'direct',
+                        require_answer: true,
+                        max_context_length: 1000
                     })
                 });
 
@@ -409,17 +714,57 @@
                 }
 
                 const data = await response.json();
+                console.log('Received response:', data);
                 
                 // Remove loading message
                 chatMessages.removeChild(loadingDiv);
                 
-                // Add response
-                addMessage(data.response);
+                if (!data.response.trim()) {
+                    addMessage(`<div class="error">I apologize, but I couldn't find a direct answer to your question. Could you please rephrase it?</div>`);
+                } else if (data.language !== selectedLanguage) {
+                    // More detailed error message about translation issues
+                    const errorDetails = `
+                        <div class="error">
+                            <p>Translation Service Status:</p>
+                            <ul>
+                                <li>Requested Language: ${selectedLanguage}</li>
+                                <li>Current Status: Translation service temporarily unavailable</li>
+                                <li>Alternative: Showing response in English</li>
+                            </ul>
+                            <p>Our team has been notified and is working to restore full translation capabilities. You can:</p>
+                            <ul>
+                                <li>Try again in a few minutes</li>
+                                <li>Temporarily switch to English</li>
+                                <li>Continue viewing responses in English until the service is restored</li>
+                            </ul>
+                        </div>
+                    `;
+                    addMessage(errorDetails);
+                    addMessage(data.response);
+                } else {
+                    addMessage(data.response);
+                }
                 
             } catch (error) {
-                // Remove loading message and add error
                 chatMessages.removeChild(loadingDiv);
-                addMessage(`<div class="error">Error: ${error.message}</div>`);
+                const errorMessage = `
+                    <div class="error">
+                        <p>Translation Error Details:</p>
+                        <ul>
+                            <li>Requested Language: ${selectedLanguage}</li>
+                            <li>Error Type: ${error.name}</li>
+                            <li>Error Message: ${error.message}</li>
+                        </ul>
+                        <p>This might be due to:</p>
+                        <ul>
+                            <li>Network connectivity issues</li>
+                            <li>Translation service maintenance</li>
+                            <li>Temporary service disruption</li>
+                        </ul>
+                    </div>
+                `;
+                addMessage(errorMessage);
+                console.error('Error details:', error);
             }
         }
 
@@ -451,10 +796,43 @@
             return formatted;
         }
 
+        // Initialize with stored language preference
+        window.addEventListener('load', function() {
+            const storedLanguage = localStorage.getItem('preferredLanguage');
+            if (storedLanguage) {
+                document.getElementById('languageSelect').value = storedLanguage;
+            }
+            setDailyVerse();
+            updateLanguageIndicator();
+        });
+
         // Initialize
         questionInput.addEventListener('input', function() {
             autoResize(this);
         });
+
+        // Function to go back to home screen
+        function goHome() {
+            // Clear chat messages
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            chatMessages.style.display = 'none';
+
+            // Show welcome section
+            const welcomeSection = document.getElementById('welcomeSection');
+            welcomeSection.style.display = 'block';
+
+            // Clear input
+            const questionInput = document.getElementById('questionInput');
+            questionInput.value = '';
+            autoResize(questionInput);
+
+            // Reset hasStartedChat flag
+            hasStartedChat = false;
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
     </script>
 </body>
 </html> 
