@@ -1,0 +1,201 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  height: 100vh;
+  background-color: #f7f7f8;
+  color: #1a1a1a;
+  border-right: 1px solid #e5e5e5;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidebar-header {
+  padding: 0.75rem;
+}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-container {
+  flex-grow: 1;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #666;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  color: #1a1a1a;
+  font-size: 0.875rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #666;
+  background-color: white;
+}
+
+.new-chat-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.new-chat-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.new-chat-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.new-chat-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.compose-icon {
+  opacity: 0.6;
+}
+
+.conversations-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0.75rem;
+}
+
+.conversation-group {
+  margin-bottom: 1.5rem;
+}
+
+.group-header {
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+  padding: 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.conversation-button {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  color: rgb(46, 44, 44);
+  cursor: pointer;
+  width: calc(100% - 28px);
+  text-align: left;
+}
+
+.conversation-item.active {
+  background-color: #ede9e9;
+  color: white;
+}
+
+.conversation-item:hover {
+  background-color: #ede9e9;
+  color: white;
+}
+
+.conversation-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.delete-button {
+  opacity: 0;
+  background: none;
+  border: none;
+  color: #666;
+  padding: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.conversation-item:hover .delete-button {
+  opacity: 1;
+  color: #1a1a1a;
+}
+
+.delete-button:hover {
+  color: #1a1a1a;
+}
+
+.loading {
+  color: #666;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}
+
+.sidebar-bottom {
+  padding: 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.bottom-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.bottom-button {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 999px;
+  color: #888;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bottom-button:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+

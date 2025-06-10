@@ -1,0 +1,103 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+  isolation: isolate;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform-origin: center;
+  animation: scaleIn 0.2s ease-out;
+  position: relative;
+  z-index: 100000;
+  isolation: isolate;
+}
+
+.modal-content h2 {
+  margin: 0 0 16px 0;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.modal-content p {
+  margin: 0 0 24px 0;
+  color: #4B5563;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+}
+
+.modal-button.cancel {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.modal-button.cancel:hover {
+  background-color: #E5E7EB;
+}
+
+.modal-button.delete {
+  background-color: #DC2626;
+  color: white;
+}
+
+.modal-button.delete:hover {
+  background-color: #B91C1C;
+}
+
+.modal-button:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+} 
