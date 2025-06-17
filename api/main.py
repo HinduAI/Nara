@@ -38,11 +38,28 @@ async def get_current_user(authorization: str = Header(None)):
     try:
         # Remove 'Bearer ' from the token
         token = authorization.replace('Bearer ', '')
+        
+        # Check if token is empty after removing Bearer
+        if not token:
+            raise HTTPException(status_code=401, detail="Empty token")
+        
         # Verify the JWT token with Supabase
         user = supabase.auth.get_user(token)
+        
+        # Check if user data exists
+        if not user or not user.user:
+            raise HTTPException(status_code=401, detail="Invalid user data")
+            
         return user
     except Exception as e:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        print(f"Authentication error: {str(e)}")
+        # More specific error handling
+        if "JWT" in str(e) or "token" in str(e).lower():
+            raise HTTPException(status_code=401, detail="Invalid or expired token")
+        elif "user" in str(e).lower():
+            raise HTTPException(status_code=401, detail="User not found")
+        else:
+            raise HTTPException(status_code=401, detail=f"Authentication failed: {str(e)}")
 
 class QuestionRequest(BaseModel):
     question: str
@@ -202,3 +219,16 @@ async def update_message_feedback(
     except Exception as e:
         print(f"Error updating message feedback: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy", "message": "API is running"}
+
+@app.get("/api/auth-test")
+async def auth_test(user = Depends(get_current_user)):
+    return {
+        "status": "authenticated", 
+        "user_id": user.user.id,
+        "email": user.user.email
+    }

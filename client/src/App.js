@@ -9,6 +9,7 @@ import Sidebar from './components/Sidebar';
 import { FiShare2 } from 'react-icons/fi';
 import Message from './components/Message';  // Add this import at the top
 import DeleteModal from './components/DeleteModal';
+import { apiGet, apiPost, apiPut, apiDelete, debugTokenStatus } from './utils/apiClient';
 
 const BACKEND_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
@@ -51,6 +52,8 @@ function App() {
   // Fetch conversations on login
   useEffect(() => {
     if (user) {
+      console.log(user);
+      
       fetchConversations();
     }
   }, [user]);
@@ -76,28 +79,28 @@ function App() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-
+  // Add debug function to window
+  useEffect(() => {
+    window.debugTokenStatus = debugTokenStatus;
+  }, []);
 
   const fetchConversations = async () => {
     try {
       setIsLoadingConversations(true);
-      const { data: { session } } = await supabase.auth.getSession();
-      const response = await fetch(`${BACKEND_URL}/api/conversations`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      
+      const response = await apiGet('/api/conversations');
       const data = await response.json();
+      
       setConversations(data);
-      console.log(data);
+      console.log('Conversations loaded:', data);
+      
       // Set active conversation to the most recent one if none is selected
       if (!activeConversationId && data.length > 0) {
         setActiveConversationId(data[0].id);
       }
     } catch (error) {
       console.error('Error fetching conversations:', error);
+      setError(`Failed to load conversations: ${error.message}`);
     } finally {
       setIsLoadingConversations(false);
     }
@@ -105,21 +108,9 @@ function App() {
 
   const createNewConversation = async (question) => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const response = await fetch(`${BACKEND_URL}/api/createnewconversation`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify({ 
-          question: question
-        })
+      const response = await apiPost('/api/createnewconversation', { 
+        question: question 
       });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
       
       const data = await response.json();
       return data.id;
@@ -162,11 +153,6 @@ function App() {
     setError(null);
     
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        throw new Error('No active session');
-      }
-
       // If no active conversation, create a new one
       let currentConversationId = activeConversationId;
       if (!currentConversationId) {
@@ -180,24 +166,13 @@ function App() {
         conversation_id: currentConversationId
       };
 
-      const response = await fetch(`${BACKEND_URL}/api/ask`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify(body)
-      });
-      
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      const response = await apiPost('/api/ask', body);
       const data = await response.json();
+      
       setResponse(data);
       setQuestion('');
       await fetchConversations();
+      await fetchConversationMessages(currentConversationId);
     } catch (error) {
       console.error('Error asking question:', error);
       setError('Failed to get response. Please try again.');
@@ -254,21 +229,9 @@ function App() {
       setResponse(null);
       setQuestion('');
       
-      const { data: { session } } = await supabase.auth.getSession();
-      const response = await fetch(`${BACKEND_URL}/api/createnewconversation`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify({})
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
+      const response = await apiPost('/api/createnewconversation', {});
       const data = await response.json();
+      
       setActiveConversationId(data.id);
       await fetchConversations();
     } catch (error) {
@@ -281,13 +244,7 @@ function App() {
 
   const handleDeleteConversation = async (conversationId) => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      await fetch(`${BACKEND_URL}/api/conversations/${conversationId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${session.access_token}`
-        }
-      });
+      await apiDelete(`/api/conversations/${conversationId}`);
       
       if (activeConversationId === conversationId) {
         setActiveConversationId(null);
@@ -308,21 +265,9 @@ function App() {
     }
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      const response = await fetch(`${BACKEND_URL}/api/conversations/${conversationId}/messages`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch messages');
-      }
-      
+      const response = await apiGet(`/api/conversations/${conversationId}/messages`);
       const data = await response.json();
+      
       console.log('Raw message data from API:', data);
       
       const formattedMessages = data.map(msg => ({
@@ -356,21 +301,9 @@ function App() {
 
   const handleFeedback = async (messageId, isPositive) => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      const response = await fetch(`${BACKEND_URL}/api/messages/${messageId}/feedback`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
-        },
-        body: JSON.stringify({
-          response_liked: isPositive
-        })
+      const response = await apiPost(`/api/messages/${messageId}/feedback`, {
+        response_liked: isPositive
       });
-      
-      if (!response.ok) {
-        throw new Error('Failed to submit feedback');
-      }
       
       // Update the message locally to show the feedback was recorded
       setMessages(prevMessages => 
